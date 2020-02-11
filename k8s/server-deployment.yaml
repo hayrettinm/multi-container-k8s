@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+spec:
+  replicas: 3
+  selector:                 # specify the set of pods that this deployment object will supposed to control
+    matchLabels:
+      component: server     # component is a kind of label. It can be any wor (like PartOfApp etc.)
+  template:
+    metadata:
+      labels:
+        component: web
+    spec:
+      containers:
+        - name:  server
+          image: hayrettinm/multi-server
+          ports: 
+            - containerPort: 5000
