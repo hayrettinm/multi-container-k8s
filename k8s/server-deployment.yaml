@@ -10,10 +10,28 @@ spec:
   template:
     metadata:
       labels:
-        component: web
+        component: server
     spec:
       containers:
         - name:  server
           image: hayrettinm/multi-server
           ports: 
             - containerPort: 5000
+          env:
+            - name: REDIS_HOST
+              value: redis-cluster-ip-service
+            - name: REDIS_PORT
+              value: "6379"
+            - name: PGUSER
+              value: postgres
+            - name: PGHOST
+              value: postgres-cluster-ip-service
+            - name: PGPORT
+              value: "5432"
+            - name: PGDATABASE
+              value: postgres
+            - name: PGPASSWORD
+              valueFrom:                                  # get the value for this env variable from some conf that we're going to put in here.
+                secretKeyRef:
+                  name: pgpassword
+                  key: PGPASSWORD

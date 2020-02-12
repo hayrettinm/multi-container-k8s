@@ -1,0 +1,23 @@
+apiVersion: v1
+
+# PersistentVolumeClaim object is the one which will be attached to podConfig. 
+# Kubernetes will see that volume claim (storage options) and will try to find 
+# either a statically provisioned persistent volume or a dynamically provisioned persistent volume
+# to meet the requirements of that claim.
+kind: PersistentVolumeClaim
+metadata:
+  name: database-persistent-volume-claim
+
+# The specs section is saying that if we attach this claim to a pod, Kubernetes must find
+# an instance of storage (like a slice of your hard drive) that meets this requierements.
+spec:
+  # if you attachme to a pod config and then hand me off to Kubernetes,
+  # Kubernetes is going to have to find an instance of storage that supports this access mode
+  accessModes:                                              
+    # ReadWriteOnce => Can be used by a single node
+    # ReadOnlyMany => Multiple nodes can read from this
+    # ReadWriteMany => Can be read and written to many nodes
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi          # exactly 2 gigs space
